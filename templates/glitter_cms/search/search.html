@@ -4,11 +4,30 @@
 <head>
     {% include 'glitter_cms/static_assets.html' %}
 
-    <title>Search Page</title>
+    <title>Search Posts</title>
 </head>
 
 <body>
-    Search page goes here.
+    <main role="main" class="container">
+
+        <!-- TODO: Replace with nav bar -->
+        <div class="row"><div class="col-md-12"><p></p></div></div>
+
+        <div class="row">
+            <div class="col-md-3"><p></p></div>
+
+            <div class="col-md-7">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button">Search</button>
+                        <button class="btn btn-outline-primary" type="button"><i class="fas fa-cog"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main><!-- /.container -->
 </body>
 
 </html>
