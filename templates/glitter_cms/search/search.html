@@ -10,20 +10,65 @@
 <body>
     <main role="main" class="container">
 
-        <!-- TODO: Replace with nav bar -->
+        <!-- TODO: Replace with nav bar and sidebar -->
         <div class="row"><div class="col-md-12"><p></p></div></div>
 
+        <!-- Search bar -->
         <div class="row">
             <div class="col-md-3"><p></p></div>
 
             <div class="col-md-7">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon2" value="">
                     <div class="input-group-append">
                         <button class="btn btn-primary" type="button">Search</button>
                         <button class="btn btn-outline-primary" type="button"><i class="fas fa-cog"></i></button>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Search options, should be hidden by default -->
+        <div id="search-options" class="row top-margin-small">
+            <div class="col-md-3"><p></p></div>
+
+            <div class="col-md-7">
+                <input type="checkbox" value="bodies">Post Bodies</input>
+                <input type="checkbox" value="titles">Post Titles</input>
+                <input type="checkbox" value="replies">Replies</input>
+                <input type="checkbox" value="tags">Tags</input>
+                <input type="checkbox" value="usernames">Usernames</input>
+            </div>
+        </div>
+
+        <!-- Search results -->
+        <div class="row top-margin-large">
+            <div class="col-md-3"><p></p></div>
+
+            <div class="col-md-7">
+
+                <!-- Search results start here -->
+                <div class="row col-md-12 top-margin-large">
+                    Title | Date | Author
+                </div>
+                <div class="row col-md-12">
+                    Body
+                </div>
+                <div class="row col-md-12">
+                    Tags
+                </div>
+
+                <!-- Another search result -->
+                <div class="row col-md-12 top-margin-large">
+                    Title | Date | Author
+                </div>
+                <div class="row col-md-12">
+                    Body
+                </div>
+                <div class="row col-md-12">
+                    Tags
+                </div>
+
             </div>
         </div>
 
