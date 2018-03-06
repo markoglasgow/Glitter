@@ -17,6 +17,7 @@ random.seed(7)
 
 NUM_USERS = 20
 NUM_POSTS = 50
+NUM_REPLIES = 25
 DEFAULT_PASSWORD = 'Glitter123456!'
 
 FIRST_NAMES = ["John", "Robert", "Michael", "William", "James",
@@ -36,9 +37,19 @@ TAGS = ["WTS", "WTB", "Selling", "Buying", "Seeking", "Misc", "Party", "Chemistr
 
 SPUN_ARTICLE_TITLES = "{{Looking for|Seeking a|Trying to find} {coursemate|roommate|gaming partner|team member|course help}|{Selling|Willing to sell|WTS|Looking to sell|Want to buy|Buying} {{Math|Chemistry|Computer Science} textbook|gaming console|old car|leftover items|spare booze}|{Party|Even|Get together} at {Maclay|Student residences|Main building|GUU|QMU} this {weekend|Monday|Tuesday|Friday|Saturday|Sunday}}"
 SPUN_ARTICLE_BODIES = "{{Hi|Hello|Greetings}, this is a test {post|article|post body|article body} which is {very short|not long|quite short|brief|short|quite brief}. It is also {random|randomly generated|random content|nonsense}. {Hope|It is my hope|We hope} you are not {confused|bedeviled|confuzzled|frazzled}.}"
+SPUN_COMMENT_BODIES = "{{Hi|Hello|Greetings}, {I'm interested|this sounds interesting|this looks great}, {how do I contact you|how can I reach you|when are you available|can you have me on FB}?}"
 
 users_list = []
 categories_list = []
+posts_list = []
+comments_list = []
+
+
+def generate_tags():
+    first = TAGS[random.randint(0, len(TAGS) - 1)]
+    second = TAGS[random.randint(0, len(TAGS) - 1)]
+    third = TAGS[random.randint(0, len(TAGS) - 1)]
+    return first + ", " + second + ", " + third
 
 
 def generate_student_id(last_name):
@@ -62,13 +73,55 @@ def add_user(name, email, password_hash, salt, student_id):
         salt=salt,
         student_id=student_id,
         recovery_token=''
-    )
+    )[0]
+    user.save()
     return user
 
 
 def add_category(name):
-    category = Category.objects.get_or_create(name=name)
+    category = Category.objects.get_or_create(name=name)[0]
+    category.save()
     return category
+
+
+def add_post(user, category, timestamp, article_title, article_body, tags, likes, views):
+    post = Post.objects.get_or_create(
+        user=user,
+        category=category,
+        timestamp=timestamp,
+        title=article_title,
+        body=article_body,
+        tags=tags,
+        likes_count=likes,
+        view_count=views,
+        reply_count=0
+    )[0]
+    post.save()
+    return post
+
+
+def add_comment(user, post, timestamp, body, likes):
+    comment = Comment.objects.get_or_create(
+        user=user,
+        post=post,
+        timestamp=timestamp,
+        body=body,
+        likes_count=likes
+    )[0]
+    comment.save()
+    return comment
+
+
+def add_like(user, post=None, comment=None):
+    like = Likes.objects.get_or_create(
+        user=user
+    )[0]
+    like.save()
+    like = Likes.objects.get(id=like.id)
+    like.post = post.id
+    like.comment = 0
+    like.save()
+    return like
 
 
 def populate_glitter():
@@ -90,13 +143,40 @@ def populate_glitter():
         categories_list.append(cat_obj)
 
     for _ in range(0, NUM_POSTS):
-        user = users_list[random.randint(0, len(users_list))]
-        category = categories_list[random.randint(0, len(categories_list))]
+        user = users_list[random.randint(0, len(users_list) - 1)]
+        category = categories_list[random.randint(0, len(categories_list) - 1)]
         timestamp = generate_timestamp()
         article_title = spin(SPUN_ARTICLE_TITLES)
         article_body = spin(SPUN_ARTICLE_BODIES)
+        tags = generate_tags()
+        likes = random.randint(0, 5)
+        views = random.randint(5, 10)
+        post = add_post(user, category, timestamp, article_title, article_body, tags, likes, views)
+        posts_list.append(post)
 
+    for _ in range(0, NUM_REPLIES):
+        user = users_list[random.randint(0, len(users_list) - 1)]
+        post = posts_list[random.randint(0, len(posts_list) - 1)]
+        timestamp = generate_timestamp()
+        body = spin(SPUN_COMMENT_BODIES)
+        likes = random.randint(0, 2)
+        comment = add_comment(user, post, timestamp, body, likes)
+        comments_list.append(comment)
 
+    # Now add likes to the database to match the like count generated above.
+    for p in posts_list:
+        if p.likes_count > 0:
+            likes = p.likes_count
+            for _ in range(0, likes):
+                user = users_list[random.randint(0, len(users_list) - 1)]
+                add_like(user, p)
+
+    for c in comments_list:
+        if c.likes_count > 0:
+            likes = c.likes_count
+            for _ in range(0, likes):
+                user = users_list[random.randint(0, len(users_list) - 1)]
+                add_like(user, None, c)
 
     return
 

@@ -40,5 +40,5 @@ class Comment(models.Model):
 # TODO: This model will probably require reworking.
 class Likes(models.Model):
     user = models.ForeignKey(User)
-    liked_post = models.ForeignKey(Post)
-    liked_comment = models.ForeignKey(Comment)
+    liked_post = models.ForeignKey(Post, null=True)
+    liked_comment = models.ForeignKey(Comment, null=True)
