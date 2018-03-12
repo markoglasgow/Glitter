@@ -164,19 +164,19 @@ def populate_glitter():
         comments_list.append(comment)
 
     # Now add likes to the database to match the like count generated above.
-    for p in posts_list:
-        if p.likes_count > 0:
-            likes = p.likes_count
-            for _ in range(0, likes):
-                user = users_list[random.randint(0, len(users_list) - 1)]
-                add_like(user, p)
+    # for p in posts_list:
+    #     if p.likes_count > 0:
+    #         likes = p.likes_count
+    #         for _ in range(0, likes):
+    #             user = users_list[random.randint(0, len(users_list) - 1)]
+    #             add_like(user, p)
 
-    for c in comments_list:
-        if c.likes_count > 0:
-            likes = c.likes_count
-            for _ in range(0, likes):
-                user = users_list[random.randint(0, len(users_list) - 1)]
-                add_like(user, None, c)
+    # for c in comments_list:
+    #     if c.likes_count > 0:
+    #         likes = c.likes_count
+    #         for _ in range(0, likes):
+    #             user = users_list[random.randint(0, len(users_list) - 1)]
+    #             add_like(user, None, c)
 
     return
 

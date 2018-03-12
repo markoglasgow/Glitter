@@ -1,2 +1,46 @@
 .top-margin-small { margin-top:10px; }
 .top-margin-large { margin-top:20px; }
+
+
+
+/* Index Feed */
+.post {margin-top: 1em;}
+
+.post_title {padding-left: 0}
+
+.post_title_link:link {
+    color: inherit
+}
+.post_title_link:hover {
+    text-decoration: underline;
+    color: inherit
+}
+.post_title_link:visited {
+    color: inherit
+}
+
+.filters {text-align: end}
+
+.user_name {text-align: end}
+
+.inline_stuff{display: inline;}
+
+.global_header {
+    height: 8em;
+    background-color: #003865;
+    color: white;
+    position: relative;
+    padding-left: 0;
+}
+
+.global_header h1 {
+    position: absolute;
+    bottom: 0;
+    font-size: 75px;
+    font-family: Arial, Helvetica, sans-serif
+}
+
+.global_header img {
+    float: left;
+    height: 8em;
+}
