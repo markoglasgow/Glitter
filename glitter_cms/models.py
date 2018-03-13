@@ -2,6 +2,11 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+CATEGORY_COLOURS = {
+    'Announcements': 'lightskyblue',
+    'Coursework': 'lightsalmon',
+    'Misc': 'lightgreen'
+}
 
 # Create your models here.
 class User(models.Model):
@@ -16,6 +21,10 @@ class User(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=255)
 
+    def calculateColour(self):
+        return CATEGORY_COLOURS[self.name]
+
+    colour = property(calculateColour)
 
 class Post(models.Model):
     user = models.ForeignKey(User)
@@ -27,6 +36,7 @@ class Post(models.Model):
     likes_count = models.IntegerField(default=0)
     view_count = models.IntegerField(default=0)
     reply_count = models.IntegerField(default=0)
+
 
 
 class Comment(models.Model):

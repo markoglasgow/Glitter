@@ -3,6 +3,7 @@
 <html>
 <head>
     {% include 'glitter_cms/static_assets.html' %}
+    {% load staticfiles %}
     <title>Feed</title>
 </head>
 
@@ -14,26 +15,13 @@
         <div class="row" style="padding: 1em">
             <div class="container">
                 <div class="row justify-content-between">
-                    <div class="col-5">
+                    <div class="col-8">
                         <form class="form-inline">
                             <input class="form-control" type="search" placeholder="Search" aria-label="Search">
                             <button class="btn my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
                         </form>
                     </div>
                     <div class="col-4 filters">
-                        <div class="dropdown inline_stuff">
-                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-sort-amount-down"></i> Sort Feed
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Likes, Descending</a>
-                                <a class="dropdown-item" href="#">Likes, Ascending</a>
-                                <a class="dropdown-item" href="#">Comments, Descending</a>
-                                <a class="dropdown-item" href="#">Comments, Ascending</a>
-                                <a class="dropdown-item" href="#">Most Recent</a>
-                            </div>
-                        </div>
-
 
                         <div class="dropdown inline_stuff">
                             <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -53,66 +41,37 @@
             <div class="col">
             </div>
             <div class="col-8" id="central_feed">
-                <div class="card post">                    
-                    <div class="card-header" style="background-color: lightskyblue">
-                        <div class="container">
-                            <div class="row justify-content-between">
-                                <div class="col-4 post_title">
-                                    <a href="www.google.com" class="post_title_link">does this look better?</a> 
-                                </div>
-                                <div class="col-4 user_name">
-                                    James Bond <i class="far fa-user-circle"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="card-link"><i class="fas fa-thumbs-up"></i> 2</i></a>
-                        <a href="#" class="card-link"><i class="fas fa-comment"></i> 10</a>
-                    </div>
-                </div>
 
-                <div class="card post" style="outline-color: lightcoral; color: lightcoral">
-                    <div class="card-header">
-                        <div class="container">
-                            <div class="row justify-content-between">
-                                <div class="col-4 post_title">
-                                    <a href="www.google.com" class="post_title_link">Or does this look better?</a>
-                                </div>
-                                <div class="col-4 user_name">
-                                    James Bond <i class="far fa-user-circle"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <p class="card-text">This one is not liked or commented on, as shown by the icons below.</p>
-                        <a href="#" class="card-link"><i class="far fa-thumbs-up"></i> 2</i></a>
-                        <a href="#" class="card-link"><i class="far fa-comment"></i> 10</a>
-                    </div>
-                </div>
+            {% if posts %}
 
-                <div class="card post">                    
-                    <div class="card-header" style="background-color: lightgreen; color: grey">
-                        <div class="container">
-                            <div class="row justify-content-between">
-                                <div class="col-4 post_title">
-                                    <a href="www.google.com" class="post_title_link">does this look better?</a> 
-                                </div>
-                                <div class="col-4 user_name">
-                                    James Bond <i class="far fa-user-circle"></i>
+                {% for post in posts  %}
+                    <div class="card post">
+                        <div class="card-header" style="background-color: {{ post.category.colour }}">
+                            <div class="container">
+                                <div class="row justify-content-between">
+                                    <div class="col-8 post_title">
+
+                                        <a href="{% url 'view_post' post.id %}"  class="post_title_link"><h6>{{ post.title }}</h6></a>
+
+
+
+                                    </div>
+                                    <div class="col-4 user_name">
+                                        {{ post.user.name }} <i class="far fa-user-circle"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="card-body">
+                            <p class="card-text">{{ post.body }}</p>
+                            <a href="#" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ post.likes_count }}</a> &nbsp <i class="fas fa-comment comment_icon"></i> <p class="comment_icon inline_stuff">{{ post.reply_count }}</p>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="card-link"><i class="fas fa-thumbs-up"></i> 2</i></a>
-                        <a href="#" class="card-link"><i class="fas fa-comment"></i> 10</a>
-                    </div>
-                </div>
+                {% endfor %}
+
+            {% else %}
+                <strong>There are no posts present.</strong>
+            {% endif %}
 
             </div>
             <div class="col">
@@ -123,6 +82,7 @@
     <script>
     $('.dropdown-toggle').dropdown()
     </script>
+
 </body>
 
 </html>

@@ -171,12 +171,16 @@ def populate_glitter():
     #             user = users_list[random.randint(0, len(users_list) - 1)]
     #             add_like(user, p)
 
-    # for c in comments_list:
-    #     if c.likes_count > 0:
-    #         likes = c.likes_count
-    #         for _ in range(0, likes):
-    #             user = users_list[random.randint(0, len(users_list) - 1)]
-    #             add_like(user, None, c)
+    for c in comments_list:
+        post = Post.objects.get(id=c.post.id)
+        post.reply_count = post.reply_count + 1
+        post.save()
+        if c.likes_count > 0:
+            likes = c.likes_count
+            for _ in range(0, likes):
+                user = users_list[random.randint(0, len(users_list) - 1)]
+                #add_like(user, None, c)
+
 
     return
 
