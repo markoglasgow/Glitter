@@ -42,11 +42,38 @@
             <div class="col-md-3"><p></p></div>
 
             <div class="col-md-7">
-                <input type="checkbox" value="bodies">Post Bodies</input>
-                <input type="checkbox" value="titles">Post Titles</input>
-                <input type="checkbox" value="replies">Replies</input>
-                <input type="checkbox" value="tags">Tags</input>
-                <input type="checkbox" value="usernames">Usernames</input>
+                <form ic-get-from="{% url 'change_search_settings' %}" ic-verb="GET" ic-trigger-on="default">
+                    <input
+                            type="checkbox"
+                            value="bodies"
+                            ic-get-from="{% url 'change_search_settings' %}"
+                            {% if search_body %}checked{% endif %}
+                            name="search_body">Post Bodies</input>
+                    <input
+                            type="checkbox"
+                            value="titles"
+                            ic-get-from="{% url 'change_search_settings' %}"
+                            {% if search_title %}checked{% endif %}
+                            name="search_title">Post Titles</input>
+                    <input
+                            type="checkbox"
+                            value="replies"
+                            ic-get-from="{% url 'change_search_settings' %}"
+                            {% if search_comments %}checked{% endif %}
+                            name="search_comments">Replies</input>
+                    <input
+                            type="checkbox"
+                            value="tags"
+                            ic-get-from="{% url 'change_search_settings' %}"
+                            {% if search_tags %}checked{% endif %}
+                            name="search_tags">Tags</input>
+                    <input
+                            type="checkbox"
+                            value="usernames"
+                            ic-get-from="{% url 'change_search_settings' %}"
+                            {% if search_users %}checked{% endif %}
+                            name="search_users">Usernames</input>
+                </form>
             </div>
         </div>
 
@@ -56,44 +83,47 @@
 
             <div class="col-md-7">
 
-                <h2>Posts</h2>
-                {% if post_results %}
-                    {% for query_set in post_results %}
-                        {% for post in query_set %}
-                            <!-- Search results start here -->
-                            <div class="row col-md-12 top-margin-large">
-                                <a href="#">{{ post.title }}</a> | {{ post.timestamp|display_timestamp }} | <a href="">{{ post.user.name }}</a>
-                            </div>
-                            <div class="row col-md-12">
-                                {{ post.body }}
-                            </div>
-                            <div class="row col-md-12">
-                                <b>Tags: </b>{{ post.tags }}
-                            </div>
-                        {% endfor %}
-                    {% endfor %}
-                {% else %}
-                    Sorry, we couldn't find any posts matching your criteria.
-                {% endif %}
+                {% if initial_load %}
 
-                <br><br>
-                <h2>Comments</h2>
-                {% if comment_results %}
-                    {% for query_set in comment_results %}
-                        {% for comment in query_set %}
-                            <!-- Search results start here -->
-                            <div class="row col-md-12 top-margin-large">
-                                {{ comment.user.name }} in {{ comment.post.title }} | {{ comment.timestamp|display_timestamp }}
-                            </div>
-                            <div class="row col-md-12">
-                                {{ comment.body }}
-                            </div>
-                        {% endfor %}
-                    {% endfor %}
                 {% else %}
-                    Sorry, we couldn't find any comments matching your criteria.
-                {% endif %}
+                    <h2>Posts</h2>
+                    {% if post_results %}
+                        {% for query_set in post_results %}
+                            {% for post in query_set %}
+                                <!-- Search results start here -->
+                                <div class="row col-md-12 top-margin-large">
+                                    <a href="#">{{ post.title }}</a> | {{ post.timestamp|display_timestamp }} | <a href="">{{ post.user.name }}</a>
+                                </div>
+                                <div class="row col-md-12">
+                                    {{ post.body }}
+                                </div>
+                                <div class="row col-md-12">
+                                    <b>Tags: </b>{{ post.tags }}
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    {% else %}
+                        Sorry, we couldn't find any posts matching your criteria.
+                    {% endif %}
 
+                    <br><br>
+                    <h2>Comments</h2>
+                    {% if comment_results %}
+                        {% for query_set in comment_results %}
+                            {% for comment in query_set %}
+                                <!-- Search results start here -->
+                                <div class="row col-md-12 top-margin-large">
+                                    {{ comment.user.name }} in {{ comment.post.title }} | {{ comment.timestamp|display_timestamp }}
+                                </div>
+                                <div class="row col-md-12">
+                                    {{ comment.body }}
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    {% else %}
+                        Sorry, we couldn't find any comments matching your criteria.
+                    {% endif %}
+                {% endif %}
             </div>
         </div>
 
