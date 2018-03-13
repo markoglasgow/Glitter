@@ -3,6 +3,7 @@
 <html>
 <head>
     {% include 'glitter_cms/static_assets.html' %}
+    {% load timestamp_tags %}
 
     <title>Search Posts</title>
 </head>
@@ -18,13 +19,21 @@
             <div class="col-md-3"><p></p></div>
 
             <div class="col-md-7">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon2" value="">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">Search</button>
-                        <button class="btn btn-outline-primary" type="button"><i class="fas fa-cog"></i></button>
+                <form action="q" method="get">
+                    <div class="input-group">
+                        <input type="text" class="form-control"
+                               name="q"
+                               placeholder=""
+                               aria-label=""
+                               aria-describedby="basic-addon2"
+                               value="{% if search_query %}{{ search_query }}{% endif %}"
+                        />
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                            <button class="btn btn-outline-primary" type="button"><i class="fas fa-cog"></i></button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
 
@@ -47,27 +56,43 @@
 
             <div class="col-md-7">
 
-                <!-- Search results start here -->
-                <div class="row col-md-12 top-margin-large">
-                    Title | Date | Author
-                </div>
-                <div class="row col-md-12">
-                    Body
-                </div>
-                <div class="row col-md-12">
-                    Tags
-                </div>
+                <h2>Posts</h2>
+                {% if post_results %}
+                    {% for query_set in post_results %}
+                        {% for post in query_set %}
+                            <!-- Search results start here -->
+                            <div class="row col-md-12 top-margin-large">
+                                <a href="#">{{ post.title }}</a> | {{ post.timestamp|display_timestamp }} | <a href="">{{ post.user.name }}</a>
+                            </div>
+                            <div class="row col-md-12">
+                                {{ post.body }}
+                            </div>
+                            <div class="row col-md-12">
+                                <b>Tags: </b>{{ post.tags }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                {% else %}
+                    Sorry, we couldn't find any posts matching your criteria.
+                {% endif %}
 
-                <!-- Another search result -->
-                <div class="row col-md-12 top-margin-large">
-                    Title | Date | Author
-                </div>
-                <div class="row col-md-12">
-                    Body
-                </div>
-                <div class="row col-md-12">
-                    Tags
-                </div>
+                <br><br>
+                <h2>Comments</h2>
+                {% if comment_results %}
+                    {% for query_set in comment_results %}
+                        {% for comment in query_set %}
+                            <!-- Search results start here -->
+                            <div class="row col-md-12 top-margin-large">
+                                {{ comment.user.name }} in {{ comment.post.title }} | {{ comment.timestamp|display_timestamp }}
+                            </div>
+                            <div class="row col-md-12">
+                                {{ comment.body }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                {% else %}
+                    Sorry, we couldn't find any comments matching your criteria.
+                {% endif %}
 
             </div>
         </div>

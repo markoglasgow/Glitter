@@ -16,5 +16,6 @@ urlpatterns = [
     url(r'^view_post/$', views_posts.view_page, name='view_post'),
 
     # URL patterns for search functionality goes here...
+    url(r'^search/q$', views_search.results_page, name='results_page'),
     url(r'^search/$', views_search.search_page, name='search_page'),
 ]
