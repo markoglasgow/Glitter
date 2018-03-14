@@ -30,7 +30,7 @@
                         />
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="submit">Search</button>
-                            <button class="btn btn-outline-primary" type="button"><i class="fas fa-cog"></i></button>
+                            <button class="btn btn-outline-primary" type="button" id="show-search-options"><i class="fas fa-cog"></i></button>
                         </div>
                     </div>
                 </form>
@@ -38,7 +38,7 @@
         </div>
 
         <!-- Search options, should be hidden by default -->
-        <div id="search-options" class="row top-margin-small">
+        <div id="search-options" class="row top-margin-small" style="display: none;">
             <div class="col-md-3"><p></p></div>
 
             <div class="col-md-7">
@@ -147,5 +147,15 @@
 
     </main><!-- /.container -->
 </body>
+
+<script type="text/javascript">
+    $('document').ready(function(){
+
+        $( "#show-search-options" ).click(function() {
+            $("#search-options").toggle();
+        });
+
+    });
+</script>
 
 </html>
