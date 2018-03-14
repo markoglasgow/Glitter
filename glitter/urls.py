@@ -13,12 +13,18 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
-from django.conf.urls import include
+from django.conf import settings
+from django.conf.urls.static import static
+from glitter_cms import views_login
 from glitter_cms import views
+from registration.backends.simple.views import RegistrationView
+
+
 
 urlpatterns = [
+    url(r'^$',views.index, name='index'),
     url(r'^glitter_cms/', include('glitter_cms.urls')),
     url(r'^admin/', admin.site.urls),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

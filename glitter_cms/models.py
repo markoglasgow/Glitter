@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.auth.models import User
+
 
 
 # Create your models here.
@@ -40,5 +42,14 @@ class Comment(models.Model):
 # TODO: This model will probably require reworking.
 class Likes(models.Model):
     user = models.ForeignKey(User)
-    liked_post = models.ForeignKey(Post, null=True)
-    liked_comment = models.ForeignKey(Comment, null=True)
+    liked_post = models.ForeignKey(Post)
+    liked_comment = models.ForeignKey(Comment)
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    picture = models.ImageField(upload_to='profile_images', blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+
