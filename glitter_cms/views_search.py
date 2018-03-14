@@ -3,7 +3,7 @@ from glitter_cms.models import Post, Comment
 from django.http import HttpResponse
 
 # TODO:
-# Save search settings upon modification
+# Use search settings from session to filter search criteria.
 
 # Sorting?
 # Pagination?
