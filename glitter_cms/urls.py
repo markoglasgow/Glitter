@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^register/$',views_login.register,name='register'), # New pattern!
     url(r'^logout/$', views_login.user_logout, name='logout'),
     url(r'^password/$', views_login.change_password, name='password_change'),
+
 ]
 
 

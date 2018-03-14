@@ -1,15 +1,10 @@
-<!DOCTYPE html>
+{% extends "glitter_cms/base.html" %}
 {% load staticfiles %}
-<html>
-    <head>
-        <title>
-    Glitter
-        </title>
-    </head>
-    <body>
-        <div>
-            <h1>Registration Complete</h1>
-            <p>You are now registered</p>
-        </div>
-    </body>
-</html>
+{% block body_block %}
+<form>
+{% csrf_token %}
+    <h1>Registration Complete</h1>
+    <p>You are now registered.</p>
+
+</form>
+{% endblock %}

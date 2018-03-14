@@ -51,6 +51,14 @@
               Logout
             </a>
           </li>
+           <div>
+          <li class="nav-item" style="float:right">
+            <a class="nav-link" style="float:right">
+              {{ request.user.username }}
+            </a>
+          </li>
+              </div>
+
           {% else %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'register' %}">
