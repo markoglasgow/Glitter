@@ -88,6 +88,8 @@ def results_page(request):
     post_results = []
     comment_results = []
 
+    search_settings = get_search_settings(request)
+
     if len(category_name) > 0:
         result = Post.objects.filter(category__name__icontains=category_name)
         if len(result) > 0:
@@ -99,25 +101,31 @@ def results_page(request):
             post_results.append(result)
 
     elif len(query) > 0:
-        result = Post.objects.filter(body__icontains=query)
-        if len(result) > 0:
-            post_results.append(result)
-        result = Post.objects.filter(tags__icontains=query)
-        if len(result) > 0:
-            post_results.append(result)
-        result = Post.objects.filter(title__icontains=query)
-        if len(result) > 0:
-            post_results.append(result)
-        result = Post.objects.filter(user__name__icontains=query)
-        if len(result) > 0:
-            post_results.append(result)
+        if 'search_body' in search_settings:
+            result = Post.objects.filter(body__icontains=query)
+            if len(result) > 0:
+                post_results.append(result)
+        if 'search_tags' in search_settings:
+            result = Post.objects.filter(tags__icontains=query)
+            if len(result) > 0:
+                post_results.append(result)
+        if 'search_title' in search_settings:
+            result = Post.objects.filter(title__icontains=query)
+            if len(result) > 0:
+                post_results.append(result)
+        if 'search_users' in search_settings:
+            result = Post.objects.filter(user__name__icontains=query)
+            if len(result) > 0:
+                post_results.append(result)
 
-        result = Comment.objects.filter(body__icontains=query)
-        if len(result) > 0:
-            comment_results.append(result)
-        result = Comment.objects.filter(user__name__icontains=query)
-        if len(result) > 0:
-            comment_results.append(result)
+        if 'search_comments' in search_settings:
+            result = Comment.objects.filter(body__icontains=query)
+            if len(result) > 0:
+                comment_results.append(result)
+        if 'search_comments' in search_settings and 'search_users' in search_settings:
+            result = Comment.objects.filter(user__name__icontains=query)
+            if len(result) > 0:
+                comment_results.append(result)
 
     context_dict = {
         'post_results': post_results,
@@ -125,7 +133,6 @@ def results_page(request):
         'search_query': query
     }
 
-    search_settings = get_search_settings(request)
     for k in search_settings.keys():
         context_dict[k] = '1'
 
