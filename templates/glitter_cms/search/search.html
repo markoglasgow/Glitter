@@ -3,6 +3,7 @@
 <html>
 <head>
     {% include 'glitter_cms/static_assets.html' %}
+    {% load timestamp_tags %}
 
     <title>Search Posts</title>
 </head>
@@ -18,26 +19,61 @@
             <div class="col-md-3"><p></p></div>
 
             <div class="col-md-7">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon2" value="">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">Search</button>
-                        <button class="btn btn-outline-primary" type="button"><i class="fas fa-cog"></i></button>
+                <form action="{% url 'results_page' %}" method="get">
+                    <div class="input-group">
+                        <input type="text" class="form-control"
+                               name="q"
+                               placeholder=""
+                               aria-label=""
+                               aria-describedby="basic-addon2"
+                               value="{% if search_query %}{{ search_query }}{% endif %}"
+                        />
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                            <button class="btn btn-outline-primary" type="button" id="show-search-options"><i class="fas fa-cog"></i></button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
 
         <!-- Search options, should be hidden by default -->
-        <div id="search-options" class="row top-margin-small">
+        <div id="search-options" class="row top-margin-small" style="display: none;">
             <div class="col-md-3"><p></p></div>
 
             <div class="col-md-7">
-                <input type="checkbox" value="bodies">Post Bodies</input>
-                <input type="checkbox" value="titles">Post Titles</input>
-                <input type="checkbox" value="replies">Replies</input>
-                <input type="checkbox" value="tags">Tags</input>
-                <input type="checkbox" value="usernames">Usernames</input>
+                <form ic-get-from="{% url 'change_search_settings' %}" ic-verb="GET" ic-trigger-on="default">
+                    <input
+                            type="checkbox"
+                            value="bodies"
+                            ic-get-from="{% url 'change_search_settings' %}"
+                            {% if search_body %}checked{% endif %}
+                            name="search_body">Post Bodies</input>
+                    <input
+                            type="checkbox"
+                            value="titles"
+                            ic-get-from="{% url 'change_search_settings' %}"
+                            {% if search_title %}checked{% endif %}
+                            name="search_title">Post Titles</input>
+                    <input
+                            type="checkbox"
+                            value="replies"
+                            ic-get-from="{% url 'change_search_settings' %}"
+                            {% if search_comments %}checked{% endif %}
+                            name="search_comments">Replies</input>
+                    <input
+                            type="checkbox"
+                            value="tags"
+                            ic-get-from="{% url 'change_search_settings' %}"
+                            {% if search_tags %}checked{% endif %}
+                            name="search_tags">Tags</input>
+                    <input
+                            type="checkbox"
+                            value="usernames"
+                            ic-get-from="{% url 'change_search_settings' %}"
+                            {% if search_users %}checked{% endif %}
+                            name="search_users">Usernames</input>
+                </form>
             </div>
         </div>
 
@@ -47,32 +83,79 @@
 
             <div class="col-md-7">
 
-                <!-- Search results start here -->
-                <div class="row col-md-12 top-margin-large">
-                    Title | Date | Author
-                </div>
-                <div class="row col-md-12">
-                    Body
-                </div>
-                <div class="row col-md-12">
-                    Tags
-                </div>
+                {% if initial_load %}
 
-                <!-- Another search result -->
-                <div class="row col-md-12 top-margin-large">
-                    Title | Date | Author
-                </div>
-                <div class="row col-md-12">
-                    Body
-                </div>
-                <div class="row col-md-12">
-                    Tags
-                </div>
+                {% else %}
+                    <h2>Posts</h2>
+                    {% if post_results %}
+                        {% for query_set in post_results %}
+                            {% for post in query_set %}
+                                <div class="card post">
+                                    <div class="card-header" style="background-color: {{ post.category.colour }}">
+                                        <div class="container">
+                                            <div class="row justify-content-between">
+                                                <div class="col-8 post_title">
+                                                    <a href="{% url 'view_post' post.id %}"  class="post_title_link"><h6>{{ post.title }}</h6></a>
+                                                </div>
+                                                <div class="col-4 user_name">
+                                                    {{ post.user.name }} <i class="far fa-user-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <small class="pull-right text-muted">
+                                            <i class="fas fa-clock"></i> {{ post.timestamp|display_timestamp }}
+                                        </small>
+                                        <p class="card-text top-margin-small">{{ post.body }}</p>
+                                        <a href="#" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ post.likes_count }}</a> &nbsp <i class="fas fa-comment comment_icon"></i> <p class="comment_icon inline_stuff">{{ post.reply_count }}</p>
+                                        <div class="float-right"><b>Tags: </b>{{ post.tags }}</div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    {% else %}
+                        Sorry, we couldn't find any posts matching your criteria.
+                    {% endif %}
 
+                    <br><br>
+                    <h2>Comments</h2>
+                    {% if comment_results %}
+                        {% for query_set in comment_results %}
+                            {% for comment in query_set %}
+
+                                <div class="chat-body clearfix top-margin-huge">
+                                    <div class="header">
+                                        <strong class="primary-font">{{ comment.user.name }}</strong> in <a href="{% url 'view_post' comment.post.id %}" >{{ comment.post.title }}</a>
+                                        <small class="pull-right text-muted">
+                                            <i class="fas fa-clock"></i> {{ comment.timestamp|display_timestamp }}
+                                        </small>
+                                    </div>
+                                    <p>
+                                        {{ comment.body }}
+                                    </p>
+                                    <a href="#" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ comment.likes_count }}</a>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    {% else %}
+                        Sorry, we couldn't find any comments matching your criteria.
+                    {% endif %}
+                {% endif %}
             </div>
         </div>
 
     </main><!-- /.container -->
 </body>
+
+<script type="text/javascript">
+    $('document').ready(function(){
+
+        $( "#show-search-options" ).click(function() {
+            $("#search-options").toggle();
+        });
+
+    });
+</script>
 
 </html>
