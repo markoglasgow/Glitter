@@ -5,9 +5,10 @@ from glitter_cms import views_login
 from glitter_cms import views_posts
 from glitter_cms import views_search
 
-
+# noinspection PyInterpreter
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'^view_post/(?P<post_id>[\w\-]+)/add_comment/$', views_posts.add_comment, name='add_comment'),
 
     # URL patterns for login go here...
     url(r'^login/$', views_login.login_page, name='login'),

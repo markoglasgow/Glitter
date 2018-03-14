@@ -38,7 +38,6 @@ class Post(models.Model):
     reply_count = models.IntegerField(default=0)
 
 
-
 class Comment(models.Model):
     user = models.ForeignKey(User)
     post = models.ForeignKey(Post)

@@ -78,13 +78,12 @@
     margin-top: 1em;
 }
 
+.reply_input {
+    width: -webkit-fill-available;
+}
+
 .reply .btn {
     margin-top: 0.5em;
     color: white;
     background-color: #003865;
-}
-
-.post_reply_textarea {
-    box-sizing: border-box;
-    resize: none;
 }
