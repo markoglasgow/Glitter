@@ -19,7 +19,7 @@
             <div class="col-md-3"><p></p></div>
 
             <div class="col-md-7">
-                <form action="q" method="get">
+                <form action="{% url 'results_page' %}" method="get">
                     <div class="input-group">
                         <input type="text" class="form-control"
                                name="q"
@@ -104,8 +104,10 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <p>{{ post.timestamp|display_timestamp }}</p>
-                                        <p class="card-text">{{ post.body }}</p>
+                                        <small class="pull-right text-muted">
+                                            <i class="fas fa-clock"></i> {{ post.timestamp|display_timestamp }}
+                                        </small>
+                                        <p class="card-text top-margin-small">{{ post.body }}</p>
                                         <a href="#" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ post.likes_count }}</a> &nbsp <i class="fas fa-comment comment_icon"></i> <p class="comment_icon inline_stuff">{{ post.reply_count }}</p>
                                         <div class="float-right"><b>Tags: </b>{{ post.tags }}</div>
                                     </div>
