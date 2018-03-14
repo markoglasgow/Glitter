@@ -3,13 +3,86 @@
 <html>
 <head>
     {% include 'glitter_cms/static_assets.html' %}
-
-    <title>Hello World</title>
+    {% load staticfiles %}
+    <title>Feed</title>
 </head>
 
 <body>
-    <h1>Hello</h1>
-    World
+
+    {% include 'glitter_cms/global_header.html' %}
+
+    <div class="container">
+        <div class="row" style="padding: 1em">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-8">
+                        <form class="form-inline">
+                            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+                        </form>
+                    </div>
+                    <div class="col-4 filters">
+
+                        <div class="dropdown inline_stuff">
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-filter"></i> Categories
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Selling</a>
+                                <a class="dropdown-item" href="#">Buying</a>
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col">
+            </div>
+            <div class="col-8" id="central_feed">
+
+            {% if posts %}
+
+                {% for post in posts  %}
+                    <div class="card post">
+                        <div class="card-header" style="background-color: {{ post.category.colour }}">
+                            <div class="container">
+                                <div class="row justify-content-between">
+                                    <div class="col-8 post_title">
+
+                                        <a href="{% url 'view_post' post.id %}"  class="post_title_link"><h6>{{ post.title }}</h6></a>
+
+
+
+                                    </div>
+                                    <div class="col-4 user_name">
+                                        {{ post.user.name }} <i class="far fa-user-circle"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">{{ post.body }}</p>
+                            <a href="#" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ post.likes_count }}</a> &nbsp <i class="fas fa-comment comment_icon"></i> <p class="comment_icon inline_stuff">{{ post.reply_count }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            {% else %}
+                <strong>There are no posts present.</strong>
+            {% endif %}
+
+            </div>
+            <div class="col">
+            </div>
+        </div>
+    </div>
+
+    <script>
+    $('.dropdown-toggle').dropdown()
+    </script>
+
 </body>
 
 </html>

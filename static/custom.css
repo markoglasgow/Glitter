@@ -1,2 +1,90 @@
 .top-margin-small { margin-top:10px; }
 .top-margin-large { margin-top:20px; }
+
+
+
+/* Index Feed */
+.post {margin-top: 1em;}
+
+.post_title {padding-left: 0}
+
+.post_title_link:link {
+    color: inherit
+}
+.post_title_link:hover {
+    text-decoration: underline;
+    color: inherit
+}
+.post_title_link:visited {
+    color: inherit
+}
+
+.filters {text-align: end}
+
+.user_name {text-align: end}
+
+.inline_stuff{display: inline;}
+
+.global_header {
+    height: 8em;
+    background-color: #003865;
+    color: white;
+    position: relative;
+    padding-left: 0;
+}
+
+.global_header h1 {
+    position: absolute;
+    bottom: 0;
+    left: 0.5em;
+    font-size: 75px;
+    font-family: Arial, Helvetica, sans-serif
+}
+
+.comment_icon {
+    color: #003865;
+}
+
+.like_icon {
+    color: #003865;
+}
+
+.comment{
+    padding-top: 0.5em;
+}
+
+.comment p {
+    margin-bottom: 0;
+}
+
+.single_post {
+    margin-bottom:1em;
+}
+
+.doesnt_exist {
+    margin-top: 1em;
+}
+
+.post_view_body {
+    margin-top: 1em;
+}
+
+.post_title_row {
+    border-bottom: solid;
+    border-bottom-color: #003865;
+}
+
+.reply {
+    margin-top: 1em;
+}
+
+.reply .btn {
+    margin-top: 0.5em;
+    color: white;
+    background-color: #003865;
+}
+
+.post_reply_textarea {
+    box-sizing: border-box;
+    resize: none;
+}

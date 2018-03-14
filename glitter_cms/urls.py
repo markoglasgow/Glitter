@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^login/$', views_login.login_page, name='login'),
 
     # URL patterns for create/view/edit/delete posts goes here...
-    url(r'^view_post/$', views_posts.view_page, name='view_post'),
+    url(r'^view_post/(?P<post_id>[\w\-]+)/$', views_posts.view_page, name='view_post'),
 
     # URL patterns for search functionality goes here...
     url(r'^search/change_search_settings$', views_search.change_search_settings, name='change_search_settings'),

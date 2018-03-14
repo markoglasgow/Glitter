@@ -3,12 +3,83 @@
 <html>
 <head>
     {% include 'glitter_cms/static_assets.html' %}
+    {% include 'glitter_cms/global_header.html' %}
 
     <title>View Post</title>
 </head>
 
 <body>
-    View Post page goes here.
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col">
+            </div>
+
+            <div class="col-8" id="central_feed">
+
+                {% if post %}
+
+                    <div class="post single_post">
+                       <div class="row justify-content-between post_title_row">
+                            <div class="col-8 post_title">
+                                <h2>{{ post.title }}</h2>
+                            </div>
+                            <div class="col-4 user_name">
+                                <h4>{{ post.user.name }} <i class="far fa-user-circle"></i></h4>
+                            </div>
+                        </div>
+
+                        <p class="post_view_body"> {{ post.body }}</p>
+                        <a href="#" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ post.likes_count }}</a>
+                    </div>
+
+                    {% if comments %}
+
+                        {% for comment in comments %}
+
+                            <div class="comment">
+                                <p><i class="fas fa-angle-right"></i> {{ comment.body }}</p>
+                                <a href="#" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ comment.likes_count }}</a>
+                            </div>
+
+                        {% endfor %}
+
+                    {% else %}
+                        <div class="comment">
+                            <p><i class="fas fa-angle-right"></i> No comments yet!</p>
+                        </div>
+                     {% endif %}
+
+                    <form class="reply">
+                        <textarea data-autoresize class="form-control post_reply_textarea" id="post_reply" rows="2" maxlength="255" placeholder="Enter a reply..."></textarea>
+                        <button type="button" class="btn">Reply</button>
+                    </form>
+
+                {%  else %}
+                    <div class="post_title doesnt_exist">
+                        <h2>Post does not exist!</h2>
+                    </div>
+                {% endif %}
+
+            </div>
+
+            <div class="col">
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        jQuery.each(jQuery('textarea[data-autoresize]'), function() {
+        var offset = this.offsetHeight - this.clientHeight;
+
+        var resizeTextarea = function(el) {
+            jQuery(el).css('height', 'auto').css('height', el.scrollHeight + offset);
+        };
+        jQuery(this).on('keyup input', function() { resizeTextarea(this); }).removeAttr('data-autoresize');
+    });
+    </script>
 </body>
 
 </html>
