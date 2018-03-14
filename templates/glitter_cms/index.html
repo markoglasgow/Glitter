@@ -1,15 +1,8 @@
-<!DOCTYPE html>
+{% extends "glitter_cms/base.html" %}
+{% load staticfiles %}
+{% block body_block %}
+<title>Hello World</title>
 
-<html>
-<head>
-    {% include 'glitter_cms/static_assets.html' %}
-
-    <title>Hello World</title>
-</head>
-
-<body>
     <h1>Hello</h1>
     World
-</body>
-
-</html>
+{% endblock %}
