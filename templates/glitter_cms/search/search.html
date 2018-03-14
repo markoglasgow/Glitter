@@ -90,15 +90,25 @@
                     {% if post_results %}
                         {% for query_set in post_results %}
                             {% for post in query_set %}
-                                <!-- Search results start here -->
-                                <div class="row col-md-12 top-margin-large">
-                                    <a href="#">{{ post.title }}</a> | {{ post.timestamp|display_timestamp }} | <a href="">{{ post.user.name }}</a>
-                                </div>
-                                <div class="row col-md-12">
-                                    {{ post.body }}
-                                </div>
-                                <div class="row col-md-12">
-                                    <b>Tags: </b>{{ post.tags }}
+                                <div class="card post">
+                                    <div class="card-header" style="background-color: {{ post.category.colour }}">
+                                        <div class="container">
+                                            <div class="row justify-content-between">
+                                                <div class="col-8 post_title">
+                                                    <a href="{% url 'view_post' post.id %}"  class="post_title_link"><h6>{{ post.title }}</h6></a>
+                                                </div>
+                                                <div class="col-4 user_name">
+                                                    {{ post.user.name }} <i class="far fa-user-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>{{ post.timestamp|display_timestamp }}</p>
+                                        <p class="card-text">{{ post.body }}</p>
+                                        <a href="#" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ post.likes_count }}</a> &nbsp <i class="fas fa-comment comment_icon"></i> <p class="comment_icon inline_stuff">{{ post.reply_count }}</p>
+                                        <div class="float-right"><b>Tags: </b>{{ post.tags }}</div>
+                                    </div>
                                 </div>
                             {% endfor %}
                         {% endfor %}
@@ -111,12 +121,18 @@
                     {% if comment_results %}
                         {% for query_set in comment_results %}
                             {% for comment in query_set %}
-                                <!-- Search results start here -->
-                                <div class="row col-md-12 top-margin-large">
-                                    {{ comment.user.name }} in {{ comment.post.title }} | {{ comment.timestamp|display_timestamp }}
-                                </div>
-                                <div class="row col-md-12">
-                                    {{ comment.body }}
+
+                                <div class="chat-body clearfix top-margin-huge">
+                                    <div class="header">
+                                        <strong class="primary-font">{{ comment.user.name }}</strong> in <a href="{% url 'view_post' comment.post.id %}" >{{ comment.post.title }}</a>
+                                        <small class="pull-right text-muted">
+                                            <i class="fas fa-clock"></i> {{ comment.timestamp|display_timestamp }}
+                                        </small>
+                                    </div>
+                                    <p>
+                                        {{ comment.body }}
+                                    </p>
+                                    <a href="#" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ comment.likes_count }}</a>
                                 </div>
                             {% endfor %}
                         {% endfor %}
