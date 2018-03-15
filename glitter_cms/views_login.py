@@ -1,5 +1,4 @@
 from django.shortcuts import render,redirect
-from registration.backends.simple.views import RegistrationView
 from glitter_cms.forms_login import UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
@@ -13,6 +12,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from glitter_cms.forms_login import RegisterForm
+from datetime import datetime
 
 # Create a new class that redirects the user to the index page,
 #if successful at logging
@@ -60,16 +60,14 @@ def user_login(request):
                 return HttpResponseRedirect(reverse('index'))
             else:
 # An inactive account was used - no logging in!
+
                 return HttpResponse("Your account is disabled.")
         else:
 # Bad login details were provided. So we can't log the user in.
           #  print("Invalid login details: {0}, {1}".format(username, password))
            # return HttpResponse("Invalid login details supplied.")
-            return render_to_response('registration/login.html',{
-                'error': 'invaid information',
-                'user_name':username,
-                'user_pwd': password,
-            })
+            messages.info(request, 'Please input the correct username or password')
+            return redirect('login')
 # The request is not a HTTP POST, so display the login form.
 # This scenario would most likely be a HTTP GET.
     else:
@@ -93,7 +91,7 @@ def change_password(request):
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, 'Your password was successfully updated!')
-            return render(request,'registration/password_change_done.html')
+            return redirect('password_change')
         else:
             messages.error(request, 'Please correct the error below.')
     else:
@@ -101,3 +99,28 @@ def change_password(request):
     return render(request, 'registration/password_change.html', {
         'form': form
     })
+
+# def get_server_side_cookie(request, cookie, default_val=None):
+#     val = request.session.get(cookie)
+#     if not val:
+#         val = default_val
+#     return val
+#
+# def visitor_cookie_handler(request):
+#     visits = int(get_server_side_cookie(request, 'visits', '1'))
+#     last_visit_cookie = get_server_side_cookie(request,
+#                                                 'last_visit',
+#                                                 str(datetime.now()))
+#     last_visit_time = datetime.strptime(last_visit_cookie[:-7],
+#                                         '%Y-%m-%d %H:%M:%S')
+# # If it's been more than a day since the last visit...
+#     if (datetime.now() - last_visit_time).days > 0:
+#         visits = visits + 1
+# #update the last visit cookie now that we have updated the count
+#         request.session['last_visit'] = str(datetime.now())
+#     else:
+#         visits = 1
+# # set the last visit cookie
+#         request.session['last_visit'] = last_visit_cookie
+# # Update/set the visits cookie
+#     request.session['visits'] = visits

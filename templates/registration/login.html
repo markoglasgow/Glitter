@@ -9,7 +9,9 @@
 </div>
 <form class="form-signin" role="form" method="post" action="{% url 'login' %}">
     {% csrf_token %}
+
     <h2 class="form-signin-heading">Please sign in</h2>
+
     <label for="inputUsername" class="sr-only">Username</label>
     <input type="text" name="username" id="id_username" class="form-control"
             placeholder="Username" required autofocus>
@@ -20,6 +22,15 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit"
             value="Submit" />Sign in</button>
     </div>
+    {% if messages %}
+        <div class="messages">
+            {% for msg in messages %}
+                <div class="alert alert-{{msg.level_tag}}" role="alert">
+                    {{msg.message}}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 
 </form>
 {% endblock %}
