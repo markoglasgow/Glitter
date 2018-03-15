@@ -1,0 +1,40 @@
+{% extends "glitter_cms/base.html" %}
+{% load staticfiles %}
+{% block body_block %}
+<link href="http://v4-alpha.getbootstrap.com/examples/signin/signin.css"
+    rel="stylesheet">
+<div class="jumbotron">
+    <h1 class="display-3">Glitter</h1>
+    <h2>&nbsp;&nbsp;&nbsp;&nbsp;See what's happening in University right now</h2>
+</div>
+<form class="form-signin" role="form" method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+
+    <h2 class="form-signin-heading">Please sign in</h2>
+
+    <label for="inputUsername" class="sr-only">Username</label>
+    <input type="text" name="username" id="id_username" class="form-control"
+            placeholder="Username" required autofocus>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" name="password" id="id_password" class="form-control"
+            placeholder="Password" required>
+    <div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit"
+            value="Submit" />Sign in</button>
+    </div>
+    {% if messages %}
+        <div class="messages">
+            {% for msg in messages %}
+                <div class="alert alert-{{msg.level_tag}}" role="alert">
+                    {{msg.message}}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+</form>
+{% endblock %}
+
+
+
+

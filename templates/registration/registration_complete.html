@@ -1,0 +1,10 @@
+{% extends "glitter_cms/base.html" %}
+{% load staticfiles %}
+{% block body_block %}
+<form>
+{% csrf_token %}
+    <h1>Registration Complete</h1>
+    <p>You are now registered.</p>
+
+</form>
+{% endblock %}

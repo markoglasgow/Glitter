@@ -1,0 +1,9 @@
+{% extends "glitter_cms/base.html" %}
+{% load staticfiles %}
+{% block body_block %}
+<form method="post" action="{% url 'logout' %}">
+    <h1>Logged Out</h1>
+    <p>You are now logged out.</p>
+
+</form>
+{% endblock %}
