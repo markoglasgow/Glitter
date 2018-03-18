@@ -68,7 +68,7 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">{{ post.body }}</p>
-                            <a href="#" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ post.likes_count }}</a> &nbsp <i class="fas fa-comment comment_icon"></i> <p class="comment_icon inline_stuff">{{ post.reply_count }}</p>
+                            <a href="{% url 'like_post' post.id %}" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ post.likes_count }}</a> &nbsp <i class="fas fa-comment comment_icon"></i> <p class="comment_icon inline_stuff">{{ post.reply_count }}</p>
                         </div>
                     </div>
                 {% endfor %}

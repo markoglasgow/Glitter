@@ -9,14 +9,24 @@ from glitter_cms import views_profiles
 # noinspection PyInterpreter
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+
+    # Comments
     url(r'^view_post/(?P<post_id>[\w\-]+)/add_comment/$', views_posts.add_comment, name='add_comment'),
+    url(r'^view_post/(?P<post_id>[\w\-]+)/(?P<comment_id>[\w\-]+)/delete_comment/$', views_posts.delete_comment, name='delete_comment'),
+    url(r'^view_post/(?P<post_id>[\w\-]+)/(?P<comment_id>[\w\-]+)/update_comment/$', views_posts.update_comment, name='update_comment'),
+    url(r'^view_post/(?P<post_id>[\w\-]+)/(?P<comment_id>[\w\-]+)/like_comment/$', views_posts.like_comment, name='like_comment'),
+
+    # Posts
+    url(r'^view_post/(?P<post_id>[\w\-]+)/$', views_posts.view_post, name='view_post'),
     url(r'^create_post/$', views_posts.create_post, name='create_post'),
+    url(r'^view_post/(?P<post_id>[\w\-]+)/update_post/$', views_posts.update_post, name='update_post'),
+    url(r'^view_post/(?P<post_id>[\w\-]+)/delete_post/$', views_posts.delete_post, name='delete_post'),
+    url(r'^view_post/(?P<post_id>[\w\-]+)/like_post/$', views_posts.like_post, name='like_post'),
+
+
 
     # URL patterns for login go here...
     url(r'^login/$', views_login.login_page, name='login'),
-
-    # URL patterns for create/view/edit/delete posts goes here...
-    url(r'^view_post/(?P<post_id>[\w\-]+)/$', views_posts.view_page, name='view_post'),
 
     # URL patterns for search functionality goes here...
     url(r'^search/change_search_settings$', views_search.change_search_settings, name='change_search_settings'),

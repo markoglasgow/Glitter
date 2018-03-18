@@ -19,21 +19,16 @@ class PostForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class' : 'form-control reply_input', 'placeholder': 'Enter Title'})
     )
     body = forms.CharField(
-        max_length=255,
-        widget=forms.TextInput(attrs={'class' : 'form-control reply_input', 'placeholder': 'Enter Post Text'})
+        widget=forms.Textarea(attrs={'class' : 'form-control reply_input', 'rows': '3', 'placeholder': 'Enter Post Text'})
     )
     tags = forms.CharField(
         max_length=255,
         widget=forms.TextInput(attrs={'class' : 'form-control reply_input', 'placeholder': 'Enter Tags'})
     )
-    # category = forms.ModelMultipleChoiceField(
-    #     queryset=Category.objects.all().values_list('name'),
-    #     widget=forms.CheckboxSelectMultiple(attrs={'class': 'post_list'})
-    # )
-
-    category = forms.CharField(
-        max_length=255,
-        widget=forms.TextInput(attrs={'class': 'form-control reply_input', 'placeholder': 'Enter List of Categories'})
+    category = forms.ModelChoiceField(
+        queryset=Category.objects.all(),
+        empty_label=None,
+        widget=forms.RadioSelect(attrs={'class': 'post_list'})
     )
 
     class Meta:

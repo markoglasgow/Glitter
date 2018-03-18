@@ -5,25 +5,23 @@
     {% include 'glitter_cms/static_assets.html' %}
     {% include 'glitter_cms/global_header.html' %}
 
-    <title>Create Post</title>
+    <title>Update Post</title>
 </head>
 <body>
     <div class="container">
         <div class="row">
             <div class="col">
-                <form class="reply" method="post" action="/glitter_cms/create_post/">
+                <form class="reply" method="post" action="/glitter_cms/view_post/{{ post }}/add_comment/">
                     {% csrf_token %}
                     {% for hidden in form.hidden_fields %}
                         {{ hidden }}
                     {% endfor %}
                     {% for field in form.visible_fields %}
-                        <div class="form-group">
-                            {{ field.errors }}
+                        <div class="reply">
                             {{ field }}
                         </div>
                     {% endfor %}
-
-                    <button type="button submit" class="reply btn">Create</button>
+                    <button type="button submit" id="reply_submit" class="reply btn">Update</button>
                 </form>
 
             </div>

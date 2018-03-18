@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from glitter_cms.models import Post, Comment, User, Category
 from glitter_cms.forms import CommentForm, PostForm
 import calendar
 from datetime import datetime
 
 # Create your views here.
-def view_page(request, post_id):
+def view_post(request, post_id):
     context_dict = {}
     form = CommentForm()
 
@@ -37,11 +39,10 @@ def create_post(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
-            cat = Category.objects.get(name=form.cleaned_data['category'])
-            if user and category:
+            if user:
                 post = form.save(commit=False)
                 post.user = user
-                post.category = cat
+                post.category = form.cleaned_data['category']
                 post.timestamp = calendar.timegm(datetime.utcnow().utctimetuple())
                 post.title = form.cleaned_data['title']
                 post.body = form.cleaned_data['body']
@@ -51,13 +52,64 @@ def create_post(request):
                 post.view_count = 0
                 post.save()
 
-                print('Post Saved')
-                return index(request)
+                return redirect('index')
 
     context_dict['form'] = form
     return render(request, 'glitter_cms/post/create_post.html', context_dict)
 
+def update_post(request, post_id):
+    try:
+        user = User.objects.get(id=1)
+        post = Post.objects.get(id=post_id)
+    except Post.DoesNotExist or User.DoesNotExist:
+        return redirect('index')
 
+    context_dict = {}
+    form = PostForm(initial={'title': post.title, 'body': post.body, 'tags':post.tags, 'category':post.category})
+
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            if user:
+                post.category = form.cleaned_data['category']
+                post.timestamp = calendar.timegm(datetime.utcnow().utctimetuple())
+                post.title = form.cleaned_data['title']
+                post.body = form.cleaned_data['body']
+                post.tags = form.cleaned_data['tags']
+
+                post.save()
+
+                return redirect('view_post', post_id=post_id)
+
+    context_dict['form'] = form
+    context_dict['post'] = post_id
+    return render(request, 'glitter_cms/post/update_post.html', context_dict)
+
+
+
+def like_post(request, post_id):
+    try:
+        post = Post.objects.get(id=post_id)
+    except Post.DoesNotExist:
+        return redirect('index')
+
+    post.likes_count = post.likes_count + 1
+    post.save()
+
+    return redirect('view_post', post_id=post_id)
+
+
+def delete_post(request, post_id):
+    try:
+        post = Post.objects.get(id=post_id)
+    except Post.DoesNotExist:
+        return redirect('index')
+
+    if post.reply_count > 0:
+        comments = Comment.objects.filter(post=post).delete()
+
+    post.delete()
+    return redirect('index')
 
 def add_comment(request, post_id):
     try:
@@ -85,7 +137,51 @@ def add_comment(request, post_id):
                 post.reply_count = post.reply_count + 1
                 post.save()
 
-                return view_page(request, post_id)
+                return redirect('view_post', post_id=post_id)
 
-    return view_page(request, post_id)
+        return redirect('view_post', post_id=post_id)
 
+
+def update_comment(request, post_id, comment_id):
+    try:
+        comment = Comment.objects.get(id=comment_id)
+        post = Post.objects.get(id=post_id)
+    except Comment.DoesNotExist:
+        return index(request)
+
+    context_dict = {}
+    form = CommentForm(initial={'body': comment.body})
+    post.reply_count = post.reply_count - 1
+    post.save()
+
+    comment.delete()
+    context_dict['form'] = form
+    context_dict['post'] = post_id
+    return render(request, 'glitter_cms/post/update_comment.html', context_dict)
+
+def like_comment(request, post_id, comment_id):
+    try:
+        comment = Comment.objects.get(id=comment_id)
+    except Comment.DoesNotExist:
+        return index(request)
+
+    comment.likes_count = comment.likes_count + 1
+    comment.save()
+
+    return redirect('view_post', post_id=post_id)
+
+def delete_comment(request, post_id, comment_id):
+    try:
+        comment = Comment.objects.get(id=comment_id)
+    except Comment.DoesNotExist:
+        return index(request)
+
+    post = Post.objects.get(id=post_id)
+    post.reply_count = post.reply_count - 1
+    if post.reply_count < 0:
+        post.reply_count = 0
+    post.save()
+
+    comment.delete()
+
+    return redirect('view_post', post_id=post_id)

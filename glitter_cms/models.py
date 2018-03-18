@@ -26,6 +26,12 @@ class Category(models.Model):
 
     colour = property(calculateColour)
 
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return self.name
+
 class Post(models.Model):
     user = models.ForeignKey(User)
     category = models.ForeignKey(Category)
