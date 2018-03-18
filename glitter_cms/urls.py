@@ -10,6 +10,7 @@ from glitter_cms import views_profiles
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^view_post/(?P<post_id>[\w\-]+)/add_comment/$', views_posts.add_comment, name='add_comment'),
+    url(r'^create_post/$', views_posts.create_post, name='create_post'),
 
     # URL patterns for login go here...
     url(r'^login/$', views_login.login_page, name='login'),

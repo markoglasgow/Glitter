@@ -88,3 +88,14 @@
     color: white;
     background-color: #003865;
 }
+
+.create_post {
+    margin-top: 0;
+    color: white;
+    background-color: #003865;
+}
+
+.post_list {
+    list-style:none;
+    padding-left: 0;
+}
