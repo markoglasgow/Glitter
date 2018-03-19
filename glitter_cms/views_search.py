@@ -109,7 +109,7 @@ def results_page(request):
             if len(result) > 0:
                 post_results.append(result)
         if 'search_users' in search_settings:
-            result = Post.objects.filter(user__name__icontains=query)
+            result = Post.objects.filter(user__username__icontains=query)
             if len(result) > 0:
                 post_results.append(result)
 
@@ -118,7 +118,7 @@ def results_page(request):
             if len(result) > 0:
                 comment_results.append(result)
         if 'search_comments' in search_settings and 'search_users' in search_settings:
-            result = Comment.objects.filter(user__name__icontains=query)
+            result = Comment.objects.filter(user__username__icontains=query)
             if len(result) > 0:
                 comment_results.append(result)
 

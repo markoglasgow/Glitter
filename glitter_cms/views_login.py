@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from glitter_cms.forms_login import UserForm, UserProfileForm
+from glitter_cms.forms_login import RegisterForm, UserProfileForm
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
@@ -10,8 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
-from glitter_cms.forms_login import RegisterForm
+from glitter_cms.models import Profile
 from datetime import datetime
 
 # Create a new class that redirects the user to the index page,
@@ -20,17 +19,27 @@ from datetime import datetime
 
 def register(request):
     if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
+        user_form = RegisterForm(request.POST)
+        profile_form = UserProfileForm(request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            user_profile = Profile.objects.get(user=user)
+            user_profile.student_id = profile_form.cleaned_data.get('student_id')
+            user_profile.save()
+
+            username = user_form.cleaned_data.get('username')
+            raw_password = user_form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
             return render(request, 'registration/registration_complete.html')
+        else:
+            print(user_form.errors)
+            print(profile_form.errors)
+            messages.error(request, 'Please correct errors in form and try again.')
     else:
-        form = RegisterForm()
-    return render(request, 'registration/registration_form.html', {'form': form})
+        user_form = RegisterForm()
+        profile_form = UserProfileForm()
+    return render(request, 'registration/registration_form.html', {'user_form': user_form, 'profile_form': profile_form})
 
 @csrf_exempt
 def user_login(request):

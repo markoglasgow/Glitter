@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 CATEGORY_COLOURS = {
@@ -9,15 +11,6 @@ CATEGORY_COLOURS = {
     'Coursework': 'lightsalmon',
     'Misc': 'lightgreen'
 }
-
-# Create your models here.
-class User(models.Model):
-    name = models.CharField(max_length=255, unique=True)
-    email = models.EmailField(max_length=255)
-    password_hash = models.CharField(max_length=255)
-    salt = models.CharField(max_length=255)
-    student_id = models.CharField(max_length=50)
-    recovery_token = models.CharField(max_length=255)
 
 
 class Category(models.Model):
@@ -27,6 +20,7 @@ class Category(models.Model):
         return CATEGORY_COLOURS[self.name]
 
     colour = property(calculateColour)
+
 
 class Post(models.Model):
     user = models.ForeignKey(User)
@@ -40,7 +34,6 @@ class Post(models.Model):
     reply_count = models.IntegerField(default=0)
 
 
-
 class Comment(models.Model):
     user = models.ForeignKey(User)
     post = models.ForeignKey(Post)
@@ -52,14 +45,22 @@ class Comment(models.Model):
 # TODO: This model will probably require reworking.
 class Likes(models.Model):
     user = models.ForeignKey(User)
-    liked_post = models.ForeignKey(Post)
-    liked_comment = models.ForeignKey(Comment)
+    liked_post = models.ForeignKey(Post, null=True)
+    liked_comment = models.ForeignKey(Comment, null=True)
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User)
-    picture = models.ImageField(upload_to='profile_images', blank=True)
 
-    def __str__(self):
-        return self.user.username
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    student_id = models.CharField(max_length=50)
 
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
 
