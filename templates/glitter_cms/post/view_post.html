@@ -31,7 +31,10 @@
                         </div>
 
                         <p class="post_view_body"> {{ post.body }}</p>
-                        <a href="#" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ post.likes_count }}</a>
+                        <a href="{% url 'like_post' post.id %}" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ post.likes_count }}</a>
+
+                        <a href="delete_post" class="del btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                        <a href="{% url 'update_post' post.id %}" class="del update_post btn btn-info"><i class="fas fa-pencil-alt"></i></a>
                     </div>
 
                     {% if comments %}
@@ -40,7 +43,9 @@
 
                             <div class="comment">
                                 <p><i class="fas fa-angle-right"></i> {{ comment.body }}</p>
-                                <a href="#" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ comment.likes_count }}</a>
+                                <a href="{% url 'like_comment' post.id comment.id%}" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ comment.likes_count }}</a> &nbsp
+                                <a href="{% url 'update_comment' post.id comment.id%}" class="update text-info"><i class="fas fa-pencil-alt"></i></a> &nbsp
+                                <a href="{% url 'delete_comment' post.id comment.id%}" class="del_comment text-danger"><i class="fas fa-trash-alt"></i></a>
                             </div>
 
                         {% endfor %}
@@ -51,9 +56,17 @@
                         </div>
                      {% endif %}
 
-                    <form class="reply">
-                        <textarea data-autoresize class="form-control post_reply_textarea" id="post_reply" rows="2" maxlength="255" placeholder="Enter a reply..."></textarea>
-                        <button type="button" class="btn">Reply</button>
+                    <form class="reply" method="post" action="/glitter_cms/view_post/{{ post.id }}/add_comment/">
+                        {% csrf_token %}
+                        {% for hidden in form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+                        {% for field in form.visible_fields %}
+                            <div class="reply">
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+                        <button type="button submit" id="reply_submit" class="reply btn">Reply</button>
                     </form>
 
                 {%  else %}
@@ -70,16 +83,6 @@
         </div>
     </div>
 
-    <script>
-        jQuery.each(jQuery('textarea[data-autoresize]'), function() {
-        var offset = this.offsetHeight - this.clientHeight;
-
-        var resizeTextarea = function(el) {
-            jQuery(el).css('height', 'auto').css('height', el.scrollHeight + offset);
-        };
-        jQuery(this).on('keyup input', function() { resizeTextarea(this); }).removeAttr('data-autoresize');
-    });
-    </script>
 </body>
 
 </html>

@@ -4,9 +4,15 @@
 .top-margin-120  { margin-top:120px; }
 .top-margin-180  { margin-top:180px; }
 
+.header_link {
+    color: white;
+}
 
+.header_link:hover,visited,link {
+    color: white;
+    text-decoration: none;
+}
 
-/* Index Feed */
 .post {margin-top: 1em;}
 
 .post_title {padding-left: 0}
@@ -81,13 +87,42 @@
     margin-top: 1em;
 }
 
+.reply_input {
+    width: -webkit-fill-available;
+}
+
 .reply .btn {
     margin-top: 0.5em;
     color: white;
     background-color: #003865;
 }
 
-.post_reply_textarea {
-    box-sizing: border-box;
-    resize: none;
+.create_post {
+    margin-top: 0;
+    color: white;
+    background-color: #003865;
+    border-color: #003865;
+}
+
+.post_list {
+    list-style:none;
+    padding-left: 0;
+}
+
+.del {
+    float: right;
+}
+
+.del_comment {
+    color: red;
+}
+
+.update {
+    color: #003865 !important;
+}
+
+.update_post {
+    background-color: #003865 !important;
+    border-color: #003865 !important;
+    margin-right: 0.5em;
 }
