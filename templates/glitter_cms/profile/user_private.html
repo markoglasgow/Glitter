@@ -1,0 +1,52 @@
+{% extends "glitter_cms/base.html" %}
+{% load staticfiles %}
+{% block body_block %}
+
+    <main role="main" class="container">
+
+        <!-- TODO: Replace with nav bar and sidebar -->
+        <div class="row top-margin-180"><div class="col-md-12"></div></div>
+
+        <!-- First row -->
+        <div class="row">
+            {% if user.is_authenticated %}
+                <form action="{% url 'private_user_profile' %}" method="post">
+                  {% csrf_token %}
+                    {% if messages %}
+                        <ul class="messages">
+                            {% for msg in messages %}
+                            <li>
+                                <div class="alert alert-{{msg.level_tag}}" role="alert">
+                                {{msg.message}}
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                  {{ user_form.as_p }}
+                  {{ profile_form.as_p }}
+                  <button type="submit">Update Profile</button>
+                </form>
+            {% else %}
+                access denied
+            {% endif %}
+        </div>
+
+        <!-- Next row -->
+        <div class="row top-margin-large">
+            <div class="col-md-3"><p></p></div>
+
+            <div class="col-md-7">
+
+            </div>
+        </div>
+
+    </main><!-- /.container -->
+
+<script type="text/javascript">
+    $('document').ready(function(){
+
+    });
+</script>
+
+{% endblock %}

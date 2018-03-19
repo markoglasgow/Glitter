@@ -10,7 +10,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
-
 urlpatterns = [
     url(r'^$', views.index, name='index'),
 
@@ -24,6 +23,7 @@ urlpatterns = [
 
     # URL patterns for viewing user profiles go here
     url(r'^public_profile/$', views_profiles.public_user_profile, name='public_user_profile'),
+    url(r'^private_profile/$', views_profiles.private_user_profile, name='private_user_profile'),
 
     url(r'^login/$', views_login.user_login, name='login'),
     url(r'^register/$',views_login.register,name='register'),

@@ -13,9 +13,18 @@ class UserProfileForm(forms.ModelForm):
 
 
 class RegisterForm(UserCreationForm):
-    username = forms.CharField(max_length=30, required=False, help_text='required.')
-    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
+    username = forms.CharField(max_length=30, required=False, help_text='Your username.')
+    email = forms.EmailField(max_length=254, help_text='Required. Enter a valid email address.')
 
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2', )
+
+
+class ChangeUserProfileForm(forms.ModelForm):
+    username = forms.CharField(max_length=30, required=False, help_text='Your unique username.')
+    email = forms.EmailField(max_length=254, help_text='Enter a valid email address.')
+
+    class Meta:
+        model = User
+        fields = ('username', 'email')
