@@ -1,38 +1,32 @@
-<!DOCTYPE html>
+{% extends "glitter_cms/base.html" %}
+{% load staticfiles %}
+{% block body_block %}
 
-<html>
-<head>
-    {% include 'glitter_cms/static_assets.html' %}
-
-    <title>Viewing user: </title>
-</head>
-
-<body>
     <main role="main" class="container">
 
         <!-- TODO: Replace with nav bar and sidebar -->
-        <div class="row"><div class="col-md-12"><p></p></div></div>
+        <div class="row top-margin-180"><div class="col-md-12"><p></p></div></div>
 
         <!-- First row -->
         <div class="row">
-            <div class="col-md-3"><p></p></div>
 
-            <div class="col-md-7">
+            User name: {{ user_data.username }}
+            <br>
+            User email: {{ user_data.email }}
+            <br>
+            User Student ID: {{ user_data.profile.student_id }}
 
-            </div>
         </div>
 
         <!-- Next row -->
         <div class="row top-margin-large">
-            <div class="col-md-3"><p></p></div>
 
-            <div class="col-md-7">
+            <a href="{% url 'results_page' %}?u={{ user_data.id }}">View All Posts</a>
 
-            </div>
         </div>
 
     </main><!-- /.container -->
-</body>
+{% endblock %}
 
 <script type="text/javascript">
     $('document').ready(function(){

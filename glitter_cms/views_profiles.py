@@ -7,7 +7,13 @@ from django.contrib import messages
 
 
 def public_user_profile(request):
-    return render(request, 'glitter_cms/profile/user_public.html', context={})
+    user_id = request.GET.get('uid', '')
+    if len(user_id) < 1:
+        return HttpResponse("Please enter a valid user id.")
+
+    user = User.objects.get(id=int(user_id))
+
+    return render(request, 'glitter_cms/profile/user_public.html', context={'user_data': user})
 
 
 @login_required
