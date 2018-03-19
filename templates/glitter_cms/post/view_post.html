@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-
-<html>
-<head>
-    {% include 'glitter_cms/static_assets.html' %}
-    {% include 'glitter_cms/global_header.html' %}
-
+{% extends 'glitter_cms/global_header.html' %}
+{% block head_block %}
     <title>View Post</title>
-</head>
+{% endblock %}
 
-<body>
+{% block body_block %}
     <div class="container">
 
         <div class="row">
@@ -83,6 +78,4 @@
         </div>
     </div>
 
-</body>
-
-</html>
+{% endblock %}

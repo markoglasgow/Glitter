@@ -1,11 +1,15 @@
-{% extends "glitter_cms/base.html" %}
+{% extends 'glitter_cms/global_header.html' %}
 {% load staticfiles %}
+
+{% block head_block %}
+    <title>Login</title>
+{% endblock %}
+
+
 {% block body_block %}
-<link href="http://v4-alpha.getbootstrap.com/examples/signin/signin.css"
-    rel="stylesheet">
+
 <div class="jumbotron">
-    <h1 class="display-3">Glitter</h1>
-    <h2>&nbsp;&nbsp;&nbsp;&nbsp;See what's happening in University right now</h2>
+    <h2>See what's happening in University right now</h2>
 </div>
 <form class="form-signin" role="form" method="post" action="{% url 'login' %}">
     {% csrf_token %}

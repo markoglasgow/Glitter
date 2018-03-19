@@ -1,41 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'glitter_cms/global_header.html' %}
+{% load staticfiles %}
 
-<head>
-    {% include 'glitter_cms/static_assets.html' %}
-    {% include 'glitter_cms/global_header.html' %}
-    {% load staticfiles %}
+{% block head_block %}
     <title>Feed</title>
-</head>
+{% endblock %}
 
-<body>
+{% block body_block %}
 
     <div class="container">
         <div class="row" style="padding: 1em">
             <div class="container">
                 <div class="row justify-content-between">
-                    <div class="col-3">
-                        <form class="form-inline">
-                            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
-                        </form>
-
-                    </div>
-                    <div class="col-5">
+                    <div class="col-2">
                         <a href="create_post" class="create_post btn btn-primary">Create Post</a>
                     </div>
-                    <div class="col-4 filters">
-
-                        <div class="dropdown inline_stuff">
-                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-filter"></i> Categories
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Selling</a>
-                                <a class="dropdown-item" href="#">Buying</a>
-                            </div>
-                        </div>                        
+                    <div class="col-2">
+                        <a href="search" class="create_post btn btn-primary">Search</a>
                     </div>
+                    <div class="col-8"></div>
                 </div>
             </div>
 
@@ -86,6 +68,4 @@
     $('.dropdown-toggle').dropdown()
     </script>
 
-</body>
-
-</html>
+{% endblock %}

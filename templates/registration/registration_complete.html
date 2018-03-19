@@ -1,5 +1,10 @@
-{% extends "glitter_cms/base.html" %}
+{% extends "glitter_cms/global_header.html" %}
 {% load staticfiles %}
+
+{% block head_block %}
+    <title>Registered!</title>
+{% endblock %}
+
 {% block body_block %}
 <form>
 {% csrf_token %}

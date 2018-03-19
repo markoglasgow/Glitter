@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    {% include 'glitter_cms/static_assets.html' %}
-    {% include 'glitter_cms/global_header.html' %}
-
+{% extends 'glitter_cms/global_header.html' %}
+{% block head_block %}
     <title>Create Post</title>
-</head>
-<body>
+{% endblock %}
+
+{% block body_block %}
     <div class="container">
         <div class="row">
             <div class="col">
@@ -30,5 +26,4 @@
         </div>
     </div>
 
-</body>
-</html>
+{% endblock %}

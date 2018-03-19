@@ -1,14 +1,12 @@
-<!DOCTYPE html>
+{% extends 'glitter_cms/global_header.html' %}
+{% load staticfiles %}
+{% load timestamp_tags %}
 
-<html>
-<head>
-    {% include 'glitter_cms/static_assets.html' %}
-    {% load timestamp_tags %}
+{% block head_block %}
+    <title>Search</title>
+{% endblock %}
 
-    <title>Search Page</title>
-</head>
-
-<body>
+{% block body_block %}
     <main role="main" class="container">
 
         <!-- TODO: Replace with nav bar and sidebar -->
@@ -146,16 +144,15 @@
         </div>
 
     </main><!-- /.container -->
-</body>
 
-<script type="text/javascript">
-    $('document').ready(function(){
-
-        $( "#show-search-options" ).click(function() {
-            $("#search-options").toggle();
+    <script type="text/javascript">
+        $('document').ready(function(){
+    
+            $( "#show-search-options" ).click(function() {
+                $("#search-options").toggle();
+            });
+    
         });
-
-    });
-</script>
-
-</html>
+    </script>
+    
+{% endblock %}

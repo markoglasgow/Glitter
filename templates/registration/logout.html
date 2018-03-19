@@ -1,5 +1,10 @@
-{% extends "glitter_cms/base.html" %}
+{% extends "glitter_cms/global_header.html" %}
 {% load staticfiles %}
+
+{% block head_block %}
+    <title>Login</title>
+{% endblock %}
+
 {% block body_block %}
 <form method="post" action="{% url 'logout' %}">
     <h1>Logged Out</h1>
