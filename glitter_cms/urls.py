@@ -26,7 +26,7 @@ urlpatterns = [
 
 
     # URL patterns for login go here...
-    url(r'^login/$', views_login.login_page, name='login'),
+    url(r'^login/$', views_login.user_login, name='login'),
 
     # URL patterns for search functionality goes here...
     url(r'^search/change_search_settings$', views_search.change_search_settings, name='change_search_settings'),
