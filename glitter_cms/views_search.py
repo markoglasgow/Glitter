@@ -5,6 +5,16 @@ from django.http import HttpResponse
 # TODO:
 # User profile page
 
+SEARCH_SETTINGS_NAMES = ["search_body", "search_title", "search_comments", "search_tags", "search_users"]
+
+
+def enable_all_search_settings(request):
+
+    for setting in SEARCH_SETTINGS_NAMES:
+        request.session[setting] = '1'
+
+    return
+
 
 # Create your views here.
 def search_page(request):
@@ -94,6 +104,9 @@ def results_page(request):
         result = Post.objects.filter(user__exact=int(user_id))
         if len(result) > 0:
             post_results.append(result)
+        result = Comment.objects.filter(user__exact=int(user_id))
+        if len(result) > 0:
+            comment_results.append(result)
 
     elif len(query) > 0:
         if 'search_body' in search_settings:

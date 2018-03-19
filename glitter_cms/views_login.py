@@ -11,6 +11,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from glitter_cms.models import Profile
+from glitter_cms.views_search import enable_all_search_settings
 from datetime import datetime
 
 # Create a new class that redirects the user to the index page,
@@ -65,6 +66,7 @@ def user_login(request):
             if user.is_active:
 # If the account is valid and active, we can log the user in.
 # We'll send the user back to the homepage.
+                enable_all_search_settings(request)
                 login(request, user)
                 return HttpResponseRedirect(reverse('index'))
             else:
