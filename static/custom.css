@@ -92,7 +92,7 @@
     border-color: #003865;
 }
 
-.post_list {
+ul {
     list-style:none;
     padding-left: 0;
 }
@@ -113,4 +113,9 @@
     background-color: #003865 !important;
     border-color: #003865 !important;
     margin-right: 0.5em;
+}
+
+.message_style {
+    margin-top: 2em;
+    margin-left: 2em;
 }

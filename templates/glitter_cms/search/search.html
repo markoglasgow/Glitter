@@ -96,7 +96,7 @@
                                                     <a href="{% url 'view_post' post.id %}"  class="post_title_link"><h6>{{ post.title }}</h6></a>
                                                 </div>
                                                 <div class="col-4 user_name">
-                                                    <a href="{% url 'public_user_profile' %}?uid={{ post.user.id }}">{{ post.user.username }}</a> <i class="far fa-user-circle"></i>
+                                                    <a href="{% url 'public_user_profile' post.user.id %}">{{ post.user.username }}</a> <i class="far fa-user-circle"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -124,7 +124,7 @@
 
                                 <div class="chat-body clearfix top-margin-huge">
                                     <div class="header">
-                                        <strong class="primary-font"><a href="{% url 'public_user_profile' %}?uid={{ comment.user.id }}">{{ comment.user.username }}</a></strong> in <a href="{% url 'view_post' comment.post.id %}" >{{ comment.post.title }}</a>
+                                        <strong class="primary-font"><a href="{% url 'public_user_profile' comment.user.id %}">{{ comment.user.username }}</a></strong> in <a href="{% url 'view_post' comment.post.id %}" >{{ comment.post.title }}</a>
                                         <small class="pull-right text-muted">
                                             <i class="fas fa-clock"></i> {{ comment.timestamp|display_timestamp }}
                                         </small>

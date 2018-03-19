@@ -7,17 +7,23 @@
 
 {% block body_block %}
 
+    <div class="jumbotron">
+        <h2>See what's happening at University right now!</h2>
+    </div>
+
     <div class="container">
         <div class="row" style="padding: 1em">
             <div class="container">
                 <div class="row justify-content-between">
-                    <div class="col-2">
-                        <a href="create_post" class="create_post btn btn-primary">Create Post</a>
+                    <div class="col-1"></div>
+                    <div class="col-4">
+                        <a href="create_post" class="create_post btn btn-primary btn-block"><i class="fas fa-pencil-alt"></i> Create Post</i></a>
                     </div>
-                    <div class="col-2">
-                        <a href="search" class="create_post btn btn-primary">Search</a>
+                    <div class="col-2"></div>
+                    <div class="col-4">
+                        <a href="search" class="create_post btn btn-primary btn-block"><i class="fas fa-search"></i> Search</i></a>
                     </div>
-                    <div class="col-8"></div>
+                    <div class="col-1"></div>
                 </div>
             </div>
 
@@ -42,7 +48,7 @@
 
                                     </div>
                                     <div class="col-4 user_name">
-                                        {{ post.user.username }} <i class="far fa-user-circle"></i>
+                                        <a href="{% url 'public_user_profile' post.user.id %}" class="post_title_link">{{ post.user.username }} <i class="far fa-user-circle"></i></a>
                                     </div>
                                 </div>
                             </div>

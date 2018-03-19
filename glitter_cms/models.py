@@ -7,9 +7,9 @@ from django.dispatch import receiver
 
 
 CATEGORY_COLOURS = {
-    'Announcements': 'lightskyblue',
-    'Coursework': 'lightsalmon',
-    'Misc': 'lightgreen'
+    'Announcements': '#6ed3cf',
+    'Coursework': '#9068be',
+    'Misc': '#e62739'
 }
 
 

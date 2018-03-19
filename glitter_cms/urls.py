@@ -34,7 +34,7 @@ urlpatterns = [
     url(r'^search/$', views_search.search_page, name='search_page'),
 
     # URL patterns for viewing user profiles go here
-    url(r'^public_profile/$', views_profiles.public_user_profile, name='public_user_profile'),
+    url(r'^public_profile/(?P<user_id>[\w\-]+)/$', views_profiles.public_user_profile, name='public_user_profile'),
     url(r'^private_profile/$', views_profiles.private_user_profile, name='private_user_profile'),
 
     url(r'^login/$', views_login.user_login, name='login'),

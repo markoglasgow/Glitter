@@ -6,12 +6,11 @@ from glitter_cms.forms_login import ChangeUserProfileForm, UserProfileForm
 from django.contrib import messages
 
 
-def public_user_profile(request):
-    user_id = request.GET.get('uid', '')
+def public_user_profile(request, user_id):
     if len(user_id) < 1:
         return HttpResponse("Please enter a valid user id.")
 
-    user = User.objects.get(id=int(user_id))
+    user = User.objects.get(id=user_id)
 
     return render(request, 'glitter_cms/profile/user_public.html', context={'user_data': user})
 
