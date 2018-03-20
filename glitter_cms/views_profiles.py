@@ -6,6 +6,7 @@ from glitter_cms.forms_login import ChangeUserProfileForm, UserProfileForm
 from django.contrib import messages
 from glitter_cms.models import Post, Comment
 
+@login_required
 def public_user_profile(request, user_id):
     if len(user_id) < 1:
         return HttpResponse("Please enter a valid user id.")
