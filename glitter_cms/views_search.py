@@ -134,6 +134,10 @@ def results_page(request):
             result = Comment.objects.filter(user__username__icontains=query)
             if len(result) > 0:
                 comment_results.append(result)
+        else:
+            result = Post.objects.filter(title__icontains=query)
+            if len(result) > 0:
+                post_results.append(result)
 
     context_dict = {
         'post_results': post_results,

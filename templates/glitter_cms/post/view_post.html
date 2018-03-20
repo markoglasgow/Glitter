@@ -1,5 +1,6 @@
 {% extends 'glitter_cms/global_header.html' %}
 {% load staticfiles %}
+{% load timestamp_tags %}
 
 {% block head_block %}
     <title>View Post</title>
@@ -23,15 +24,16 @@
                                 <h2>{{ post.title }}</h2>
                             </div>
                             <div class="col-4 user_name">
-                                <h4>{{ post.user.name }} <i class="far fa-user-circle"></i></h4>
+                                <h4><a href="{% url 'public_user_profile' post.user.id %}" class="post_title_link">{{ post.user.username }} <i class="far fa-user-circle"></i></a></h4>
                             </div>
                         </div>
-
+                        
                         <p class="post_view_body"> {{ post.body }}</p>
                         <a href="{% url 'like_post' post.id %}" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ post.likes_count }}</a>
-
-                        <a href="delete_post" class="del btn btn-danger"><i class="fas fa-trash-alt"></i></a>
-                        <a href="{% url 'update_post' post.id %}" class="del update_post btn btn-info"><i class="fas fa-pencil-alt"></i></a>
+                        {% if request.user.id == post.user.id %}
+                            <a href="delete_post" class="del btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                            <a href="{% url 'update_post' post.id %}" class="del update_post btn btn-info"><i class="fas fa-pencil-alt"></i></a>
+                        {% endif %}
                     </div>
 
                     {% if comments %}
@@ -41,8 +43,10 @@
                             <div class="comment">
                                 <p><i class="fas fa-angle-right"></i> {{ comment.body }}</p>
                                 <a href="{% url 'like_comment' post.id comment.id%}" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ comment.likes_count }}</a> &nbsp
-                                <a href="{% url 'update_comment' post.id comment.id%}" class="update text-info"><i class="fas fa-pencil-alt"></i></a> &nbsp
-                                <a href="{% url 'delete_comment' post.id comment.id%}" class="del_comment text-danger"><i class="fas fa-trash-alt"></i></a>
+                                {% if request.user.id == comment.user.id %}
+                                    <a href="{% url 'update_comment' post.id comment.id%}" class="update text-info"><i class="fas fa-pencil-alt"></i></a> &nbsp
+                                    <a href="{% url 'delete_comment' post.id comment.id%}" class="del_comment text-danger"><i class="fas fa-trash-alt"></i></a>
+                                {% endif %}
                             </div>
 
                         {% endfor %}

@@ -6,37 +6,35 @@
 {% endblock %}
 
 {% block body_block %}
-
-    <main role="main" class="container">
-
-        <!-- TODO: Replace with nav bar and sidebar -->
-        <div class="row top-margin-180"><div class="col-md-12"><p></p></div></div>
+    <div class="container">
 
         <!-- First row -->
         <div class="row">
 
-            User name: {{ user_data.username }}
-            <br>
-            User email: {{ user_data.email }}
-            <br>
-            User Student ID: {{ user_data.profile.student_id }}
+            <div class="col"></div>
 
+            <div class="col-8" id="central_feed">
+                <div class="post single_post">
+                    <p><strong>{{ user_data.username }}</strong></p>
+                    <p>Email: {{ user_data.email }}</p>
+                    <p>Student ID: {{ user_data.profile.student_id }}</p>
+                    <a href="{% url 'results_page' %}?u={{ user_data.id }}" class="user_badge"><span class="badge">{{ post_count }} Posts</span></a>
+                    <a href="{% url 'results_page' %}?u={{ user_data.id }}" class="user_badge"><span class="badge">{{ comment_count }} Replies</span></a>
+
+                </div>
+
+            </div>
+
+            <div class="col"></div>
         </div>
 
-        <!-- Next row -->
-        <div class="row top-margin-large">
+    </div>
 
-            <a href="{% url 'results_page' %}?u={{ user_data.id }}">View All Posts</a>
-
-        </div>
-
-    </main><!-- /.container -->
+    <script type="text/javascript">
+        $('document').ready(function(){
+    
+        });
+    </script>
 {% endblock %}
 
-<script type="text/javascript">
-    $('document').ready(function(){
 
-    });
-</script>
-
-</html>

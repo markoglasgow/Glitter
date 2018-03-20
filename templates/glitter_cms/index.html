@@ -1,5 +1,6 @@
 {% extends 'glitter_cms/global_header.html' %}
 {% load staticfiles %}
+{% load timestamp_tags %}
 
 {% block head_block %}
     <title>Feed</title>
@@ -54,8 +55,12 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <p class="card-text">{{ post.body }}</p>
+                            <small class="pull-right text-muted">
+                                <i class="fas fa-clock"></i> {{ post.timestamp|display_timestamp }}
+                            </small>
+                            <p class="card-text top-margin-small">{{ post.body }}</p>
                             <a href="{% url 'like_post' post.id %}" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ post.likes_count }}</a> &nbsp <i class="fas fa-comment comment_icon"></i> <p class="comment_icon inline_stuff">{{ post.reply_count }}</p>
+                            <div class="float-right"><b>Tags: </b>{{ post.tags }}</div>
                         </div>
                     </div>
                 {% endfor %}

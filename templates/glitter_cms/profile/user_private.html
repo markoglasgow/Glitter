@@ -15,7 +15,7 @@
         <!-- First row -->
         <div class="row">
             {% if user.is_authenticated %}
-                <form action="{% url 'private_user_profile' %}" method="post">
+                <form class='reply' action="{% url 'private_user_profile' %}" method="post">
                   {% csrf_token %}
                     {% if messages %}
                         <ul class="messages">
@@ -33,7 +33,7 @@
                   <button type="submit">Update Profile</button>
                 </form>
             {% else %}
-                access denied
+                Access denied
             {% endif %}
         </div>
 

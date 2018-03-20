@@ -119,3 +119,8 @@ ul {
     margin-top: 2em;
     margin-left: 2em;
 }
+
+.user_badge {
+    background-color: #003865;
+    color: white;
+}

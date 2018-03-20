@@ -4,15 +4,17 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from glitter_cms.forms_login import ChangeUserProfileForm, UserProfileForm
 from django.contrib import messages
-
+from glitter_cms.models import Post, Comment
 
 def public_user_profile(request, user_id):
     if len(user_id) < 1:
         return HttpResponse("Please enter a valid user id.")
 
     user = User.objects.get(id=user_id)
+    post_count = Post.objects.filter(user=user).count()
+    comment_count = Comment.objects.filter(user=user).count()
 
-    return render(request, 'glitter_cms/profile/user_public.html', context={'user_data': user})
+    return render(request, 'glitter_cms/profile/user_public.html', context={'user_data': user, 'post_count': post_count, 'comment_count': comment_count})
 
 
 @login_required

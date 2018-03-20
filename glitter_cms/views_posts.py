@@ -5,6 +5,7 @@ from glitter_cms.models import Post, Comment, User, Category
 from glitter_cms.forms import CommentForm, PostForm
 import calendar
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def view_post(request, post_id):
@@ -25,12 +26,10 @@ def view_post(request, post_id):
 
     return render(request, 'glitter_cms/post/view_post.html', context_dict)
 
-    #todo
-    # Retrieve user from session as opposed to hard coded ID.
-
+@login_required
 def create_post(request):
     try:
-        user = User.objects.get(id=1)
+        user = User.objects.get(id=request.user.id)
     except User.DoesNotExist:
         user = None
 
@@ -57,9 +56,10 @@ def create_post(request):
     context_dict['form'] = form
     return render(request, 'glitter_cms/post/create_post.html', context_dict)
 
+@login_required
 def update_post(request, post_id):
     try:
-        user = User.objects.get(id=1)
+        user = User.objects.get(id=request.user.id)
         post = Post.objects.get(id=post_id)
     except Post.DoesNotExist or User.DoesNotExist:
         return redirect('index')
@@ -86,7 +86,7 @@ def update_post(request, post_id):
     return render(request, 'glitter_cms/post/update_post.html', context_dict)
 
 
-
+@login_required
 def like_post(request, post_id):
     try:
         post = Post.objects.get(id=post_id)
@@ -98,7 +98,7 @@ def like_post(request, post_id):
 
     return redirect('view_post', post_id=post_id)
 
-
+@login_required
 def delete_post(request, post_id):
     try:
         post = Post.objects.get(id=post_id)
@@ -111,10 +111,11 @@ def delete_post(request, post_id):
     post.delete()
     return redirect('index')
 
+@login_required
 def add_comment(request, post_id):
     try:
         post = Post.objects.get(id=post_id)
-        user = User.objects.get(id=1)
+        user = User.objects.get(id=request.user.id)
     except Post.DoesNotExist:
         post = None
         user = None
@@ -141,7 +142,7 @@ def add_comment(request, post_id):
 
         return redirect('view_post', post_id=post_id)
 
-
+@login_required
 def update_comment(request, post_id, comment_id):
     try:
         comment = Comment.objects.get(id=comment_id)
@@ -159,6 +160,7 @@ def update_comment(request, post_id, comment_id):
     context_dict['post'] = post_id
     return render(request, 'glitter_cms/post/update_comment.html', context_dict)
 
+@login_required
 def like_comment(request, post_id, comment_id):
     try:
         comment = Comment.objects.get(id=comment_id)
@@ -170,6 +172,7 @@ def like_comment(request, post_id, comment_id):
 
     return redirect('view_post', post_id=post_id)
 
+@login_required
 def delete_comment(request, post_id, comment_id):
     try:
         comment = Comment.objects.get(id=comment_id)

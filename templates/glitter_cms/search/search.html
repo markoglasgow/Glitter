@@ -106,7 +106,7 @@
                                             <i class="fas fa-clock"></i> {{ post.timestamp|display_timestamp }}
                                         </small>
                                         <p class="card-text top-margin-small">{{ post.body }}</p>
-                                        <a href="#" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ post.likes_count }}</a> &nbsp <i class="fas fa-comment comment_icon"></i> <p class="comment_icon inline_stuff">{{ post.reply_count }}</p>
+                                        <a href="{% url 'like_post' post.id %}" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ post.likes_count }}</a> &nbsp <i class="fas fa-comment comment_icon"></i> <p class="comment_icon inline_stuff">{{ post.reply_count }}</p>
                                         <div class="float-right"><b>Tags: </b>{{ post.tags }}</div>
                                     </div>
                                 </div>
@@ -132,7 +132,11 @@
                                     <p>
                                         {{ comment.body }}
                                     </p>
-                                    <a href="#" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ comment.likes_count }}</a>
+                                    <a href="{% url 'like_comment' comment.post.id comment.id%}" class="card-link like_icon"><i class="fas fa-thumbs-up"></i> {{ comment.likes_count }}</a> &nbsp
+                                    {% if request.user.id == comment.user.id %}
+                                        <a href="{% url 'update_comment' post.id comment.id%}" class="update text-info"><i class="fas fa-pencil-alt"></i></a> &nbsp
+                                        <a href="{% url 'delete_comment' post.id comment.id%}" class="del_comment text-danger"><i class="fas fa-trash-alt"></i></a>
+                                    {% endif %}
                                 </div>
                             {% endfor %}
                         {% endfor %}
